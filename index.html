@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>12F拼圖</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="style/style.css" />
+  </head>
+  <body class="bg-painting">
+    <div id="app">
+      <div
+        class="loader-layer d-flex justify-content-center align-items-center flex-column"
+        v-if="isLoading"
+      >
+        <span class="h4">載入中...</span>
+        <div class="fa-3x">
+          <i class="fas fa-puzzle-piece scale"></i>
+        </div>
+      </div>
+      <div class="container-fluid py-3">
+        <div class="row">
+          <h1 class="text-white text-center py-3" v-if="correct.length!==9">
+            請完成這幅清明上河圖
+          </h1>
+          <div class="col-md-6 d-flex justify-content-center">
+            <img
+              src="images/img-Qingming.png"
+              v-if="isStarted===false||correct.length===9"
+              class="puzzle-completed"
+            />
+            <div class="puzzle" v-if="isStarted===true&&correct.length!==9">
+              <div class="d-flex">
+                <div
+                  class="puzzleEmpty"
+                  data-role="drag-drop-container"
+                  @dragover="allowDrop"
+                  @drop.prevent="drop"
+                  id="box1"
+                ></div>
+                <div
+                  class="puzzleEmpty"
+                  data-role="drag-drop-container"
+                  @dragover="allowDrop"
+                  @drop.prevent="drop"
+                  id="box2"
+                ></div>
+                <div
+                  class="puzzleEmpty"
+                  data-role="drag-drop-container"
+                  @dragover="allowDrop"
+                  @drop.prevent="drop"
+                  id="box3"
+                ></div>
+              </div>
+              <div class="d-flex">
+                <div
+                  class="puzzleEmpty"
+                  data-role="drag-drop-container"
+                  @dragover="allowDrop"
+                  @drop.prevent="drop"
+                  id="box4"
+                ></div>
+                <div
+                  class="puzzleEmpty"
+                  data-role="drag-drop-container"
+                  @dragover="allowDrop"
+                  @drop.prevent="drop"
+                  id="box5"
+                ></div>
+                <div
+                  class="puzzleEmpty"
+                  data-role="drag-drop-container"
+                  @dragover="allowDrop"
+                  @drop.prevent="drop"
+                  id="box6"
+                ></div>
+              </div>
+              <div class="d-flex">
+                <div
+                  class="puzzleEmpty"
+                  data-role="drag-drop-container"
+                  @dragover="allowDrop"
+                  @drop.prevent="drop"
+                  id="box7"
+                ></div>
+                <div
+                  class="puzzleEmpty"
+                  data-role="drag-drop-container"
+                  @dragover="allowDrop"
+                  @drop.prevent="drop"
+                  id="box8"
+                ></div>
+                <div
+                  class="puzzleEmpty"
+                  data-role="drag-drop-container"
+                  @dragover="allowDrop"
+                  @drop.prevent="drop"
+                  id="box9"
+                ></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 puzzle-box order-3 order-md-2">
+            <div v-show="isStarted===true&&correct.length!==9">
+              <img
+                src="images/Puzzle-1.png"
+                class="puzzle_pieces_left1 puzzle_pieces"
+                :style="ranPosition[0]"
+                draggable="true"
+                @dragstart="drag"
+                id="puzzle1"
+              />
+              <img
+                src="images/Puzzle-2.png"
+                class="puzzle_pieces_middle1 puzzle_pieces"
+                alt=""
+                :style="ranPosition[1]"
+                draggable="true"
+                @dragstart="drag"
+                id="puzzle2"
+              />
+              <img
+                src="images/Puzzle-3.png"
+                class="puzzle_pieces_right1 puzzle_pieces"
+                alt=""
+                :style="ranPosition[2]"
+                draggable="true"
+                @dragstart="drag"
+                id="puzzle3"
+              />
+              <img
+                src="images/Puzzle-4.png"
+                class="puzzle_pieces_left2 puzzle_pieces"
+                alt=""
+                :style="ranPosition[3]"
+                draggable="true"
+                @dragstart="drag"
+                id="puzzle4"
+              />
+              <img
+                src="images/Puzzle-5.png"
+                class="puzzle_pieces_middle2 puzzle_pieces"
+                alt=""
+                :style="ranPosition[4]"
+                draggable="true"
+                @dragstart="drag"
+                id="puzzle5"
+              />
+              <img
+                src="images/Puzzle-6.png"
+                class="puzzle_pieces_right2 puzzle_pieces"
+                alt=""
+                :style="ranPosition[5]"
+                draggable="true"
+                @dragstart="drag"
+                id="puzzle6"
+              />
+              <img
+                src="images/Puzzle-7.png"
+                class="puzzle_pieces_left3 puzzle_pieces"
+                alt=""
+                :style="ranPosition[6]"
+                draggable="true"
+                @dragstart="drag"
+                id="puzzle7"
+              />
+              <img
+                src="images/Puzzle-8.png"
+                class="puzzle_pieces_middle3 puzzle_pieces"
+                alt=""
+                :style="ranPosition[7]"
+                draggable="true"
+                @dragstart="drag"
+                id="puzzle8"
+              />
+              <img
+                src="images/Puzzle-9.png"
+                class="puzzle_pieces_right3 puzzle_pieces"
+                alt=""
+                :style="ranPosition[8]"
+                draggable="true"
+                @dragstart="drag"
+                id="puzzle9"
+              />
+            </div>
+          </div>
+          <div class="col-md-6" v-if="playAgain===true&&isStarted===false">
+            <div class="px-3 text-white">
+              <h2 class="py-4">清院本清明上河圖</h2>
+              <div class="py-3">
+                <p>陳枚、孫祜、金昆、戴洪、程志道</p>
+                <p>清高宗乾隆元年（1736）</p>
+              </div>
+              <div class="py-4">
+                <p>
+                  宋張澤端（活動於西元十二世紀前期）「清明上河圖」是畫史中寫實風俗畫的一件傑作，歷代臨仿者甚多，在故宮即藏有七種不同的本子，其中就屬清院本「清明上河圖」最為有名。
+                  <br />此卷為乾隆元年（一七三六）由宮廷畫院畫師陳枚、孫祜、金昆、戴洪、程志道等五人合繪。
+                  此卷設色鮮麗，用筆圓熟，界畫橋樑、屋宇及人物皆十分細膩嚴謹，是院畫中之極精者。所畫事物甚多，雖失去了宋代古制，但也足以代表明清之際北京風物。
+                </p>
+              </div>
+            </div>
+            <div class="text-center">
+              <button
+                class="my-3 btn btn-transparent"
+                @click="NewGame"
+                v-show="isStarted===false&&playAgain===true"
+              >
+                在玩一次
+              </button>
+            </div>
+          </div>
+          <div class="text-center col-12 order-2 order-md-3">
+            <!-- align-self-end  -->
+            <button
+              class="my-3 btn btn-transparent"
+              @click="NewGame"
+              v-show="isStarted===true&&correct.length!==9"
+            >
+              重新排列
+            </button>
+            <button
+              class="my-3 btn btn-transparent"
+              @click="NewGame"
+              v-show="isStarted===false&&playAgain===false"
+            >
+              開始
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="all.js"></script>
+  </body>
+</html>

@@ -1,0 +1,112 @@
+* {
+  font-family: "Noto Serif TC", serif;
+}
+@mixin pad() {
+  @media (max-width: 768px) {
+    @content;
+  }
+}
+.bg-painting {
+  background-size: cover;
+  background-position: center center;
+  min-height: 100vh;
+  position: relative;
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+    url("../images/img-bg-Qingming.png");
+}
+.puzzle {
+  height: 400px;
+}
+.puzzle-completed {
+  width: 500px;
+}
+.btn-transparent {
+  background-color: transparent;
+  border: white 2px solid;
+  color: white;
+  padding: 16px 127px;
+  font-size: 24px;
+  &:hover {
+    background-color: white;
+  }
+  @include pad() {
+    padding: 8px 30px;
+  }
+}
+.puzzleEmpty {
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  height: 130px;
+  width: 130px;
+}
+.puzzle_pieces_right1 {
+  height: 145px;
+  width: 128px;
+}
+.puzzle_pieces_right2 {
+  height: 135px;
+  width: 145px;
+  margin-left: -20px;
+}
+.puzzle_pieces_right3 {
+  height: 145px;
+  width: 130px;
+  margin-top: -20px;
+}
+.puzzle_pieces_middle1 {
+  height: 128px;
+  width: 170px;
+  margin-left: -20px;
+}
+.puzzle_pieces_middle2 {
+  height: 170px;
+  width: 130px;
+  margin-top: -20px;
+}
+.puzzle_pieces_middle3 {
+  height: 127px;
+  width: 170px;
+  margin-left: -21px;
+  margin-top: -2px;
+}
+.puzzle_pieces_left1 {
+  height: 145px;
+  width: 130px;
+}
+.puzzle_pieces_left2 {
+  height: 130px;
+  width: 150px;
+  margin-right: -20px;
+}
+.puzzle_pieces_left3 {
+  height: 145px;
+  width: 130px;
+  margin-top: -20px;
+}
+.puzzle-box {
+  position: relative;
+}
+.puzzle_pieces {
+  cursor: pointer;
+}
+/*開場遮罩與動畫*/
+.loader-layer {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.9);
+  color: white;
+  .scale {
+    animation: scale 0.8s infinite;
+  }
+}
+
+@keyframes scale {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.3);
+  }
+}
