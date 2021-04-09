@@ -85,7 +85,7 @@ var app=new Vue({
         let vm=this;
         setTimeout(function(){
             vm.isLoading=false; 
-        },1500)
+        },2000)
     },
     
 })
